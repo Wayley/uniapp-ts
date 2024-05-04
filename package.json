@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "@dcloudio/types": "^3.4.8",
+    "@vue/tsconfig": "^0.5.1"
+  },
+  "dependencies": {
+    "@dcloudio/uni-app": "^2.0.2-4000820240401001",
+    "vue": "^3.4.26"
+  }
+}
