@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-const title = ref('Hello Uni-app TS');
+const title = ref<string>('Hello Uni-app TS');
 </script>
 
 <style lang="scss">

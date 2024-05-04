@@ -4,7 +4,7 @@
     "@vue/tsconfig": "^0.5.1"
   },
   "dependencies": {
-    "@dcloudio/uni-app": "^2.0.2-4000820240401001",
+    "@dcloudio/uni-app": "3.0.0-4000720240327002",
     "vue": "^3.4.26"
   }
 }
