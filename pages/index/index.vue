@@ -1,40 +1,58 @@
 <template>
-  <view class="content">
-    <image class="logo" src="/static/logo.png"></image>
-    <view class="text-area">
-      <text class="title">{{ title }}</text>
-    </view>
-  </view>
+  <view> </view>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-const title = ref<string>('Hello Uni-app TS');
-</script>
+import { onShow } from '@dcloudio/uni-app';
+import { FileAppender, Logger } from '../../utils/Logger';
 
-<style lang="scss">
-.content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  .title {
-    font-size: 36rpx;
-    color: red;
+function p() {
+  return new Promise((r) => {
+    setTimeout(() => {
+      r(true);
+    }, 2000);
+  });
+}
+async function test() {
+  console.log('TEST');
+  const r = await p();
+  console.log('111', r);
+  p().then((res) => {
+    console.log('222', res);
+  });
+}
+
+const logger = new Logger();
+let f = new FileAppender();
+logger.addAppenders([f, f]);
+function init() {
+  logger.log('init', { mm: '' });
+
+  logger.log(`000`, { mm: '' });
+  setTimeout(() => {
+    logger.log(100233);
+  }, 200);
+  setTimeout(() => {
+    logger.log(1002);
+  }, 200);
+  setTimeout(() => {
+    logger.log(1003, { mm: '' });
+  }, 200);
+  logger.log(`001`);
+
+  for (let i = 1; i <= 10; i++) {
+    logger.log(i);
   }
-}
 
-.logo {
-  height: 200rpx;
-  width: 200rpx;
-  margin-top: 200rpx;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 50rpx;
-}
+  logger.log(1000);
+  logger.log(1004);
 
-.text-area {
-  display: flex;
-  justify-content: center;
+  setTimeout(() => {
+    logger.log(1001);
+  }, 100);
 }
-</style>
+onShow(() => {
+  // test();
+  init();
+});
+</script>

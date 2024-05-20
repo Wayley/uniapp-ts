@@ -80,3 +80,4 @@ export class DateUtil {
     return result;
   }
 }
+export default DateUtil;

@@ -1,3 +1,5 @@
+import Sequence, { type PromiseHandler } from 'wing-sequence';
+
 export enum Level {
   Off,
   Fatal,
@@ -8,9 +10,9 @@ export enum Level {
   Trace,
   All,
 }
-interface ILogger {
+export interface ILogger {
   setLevel(level: Level): void;
-  addAppender(appender: IAppender): void;
+  addAppenders(appender: IAppender[]): void;
 }
 
 export class Logger implements ILogger {
@@ -28,11 +30,13 @@ export class Logger implements ILogger {
     this.level = level;
   }
 
-  addAppender(appender: IAppender): void {
-    if (this.appenders.includes(appender)) {
-      return;
-    }
-    this.appenders.push(appender);
+  addAppenders(appenders: IAppender[]): void {
+    appenders.forEach((appender) => {
+      if (this.appenders.includes(appender)) {
+        return;
+      }
+      this.appenders.push(appender);
+    });
   }
 
   log(...args: any[]) {
@@ -45,21 +49,32 @@ export class Logger implements ILogger {
     });
   }
 }
-
 export interface IAppender {
   execute(...args: any[]): void;
 }
-
 export class ConsoleAppender implements IAppender {
   constructor() {}
+
   execute(...args: any[]): void {
     console.log('ConsoleAppender execute: ', ...args);
   }
 }
 
-export class FileAppender implements IAppender {
-  constructor() {}
-  execute(...args: any[]): void {
-    console.log('FileAppender execute: ', ...args);
+export class FileAppender extends Sequence<PromiseHandler<boolean>> implements IAppender {
+  constructor() {
+    super();
   }
+
+  execute(...args: any[]) {
+    const v = args.join(',');
+    this.push((f: boolean) => new Promise(async (r) => r(f && (await write(v)))));
+  }
+}
+function write(value: string): Promise<boolean> {
+  return new Promise((r) => {
+    setTimeout(() => {
+      console.log('write:', value);
+      r(true);
+    }, Math.random() * 100);
+  });
 }

@@ -5,6 +5,7 @@
   },
   "dependencies": {
     "@dcloudio/uni-app": "3.0.0-4000720240327002",
-    "vue": "^3.4.26"
+    "vue": "^3.4.26",
+    "wing-sequence": "^0.0.1"
   }
 }
